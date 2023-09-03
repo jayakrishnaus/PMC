@@ -1,24 +1,34 @@
-<script setup>
-defineProps({
-  msg: {
-    type: String,
-    required: true
-  }
-})
-</script>
-
 <template>
-    <img alt="Vue logo" class="logo" src="../assets/map.gif" width="600" height="500" />
-  <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
-    </h3>
-  </div>
+  <div id="map"></div>
 </template>
 
-<style scoped>
+<script>
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import 'leaflet-providers/leaflet-providers';
 
+export default {
+  mounted() {
+    // Create a map instance and set its center and zoom level
+    const map = L.map('map').setView([51.505, -0.09], 13);
+
+    // Add the dark tile layer
+    L.tileLayer.provider('CartoDB.DarkMatter', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    // Add a marker
+    L.marker([51.505, -0.09])
+      .addTo(map)
+      .bindPopup('Hello, Vue.js and Leaflet in Dark Mode!')
+      .openPopup();
+  },
+};
+</script>
+
+<style scoped>
+#map {
+  height: 600px;
+  width: 800px;
+}
 </style>
